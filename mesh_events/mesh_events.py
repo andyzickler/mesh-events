@@ -14,7 +14,7 @@ advertiser = MDNSAdvertiser()
 
 @app.route('/')
 def index():
-  return render_template('index.html', calendars=CalendarStore.all())
+  return render_template('index.html', calendars=CalendarStore.all(), calendars_json=CalendarStore.all_json())
 
 
 @atexit.register

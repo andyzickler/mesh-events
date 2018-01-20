@@ -1,4 +1,5 @@
-from .calendar import MeshCalendar
+import json
+from .calendar import MeshCalendar, MeshCalendarEncoder
 
 _store = {}
 
@@ -6,7 +7,10 @@ def add(calendar):
   _store[calendar.id()] = calendar
 
 def all():
-  return _store.values()
+  return list(_store.values())
+
+def all_json():
+  return json.dumps(all(), cls=MeshCalendarEncoder)
 
 def load_seed_data():
   add(MeshCalendar("James' Work Calendar"))
