@@ -29,7 +29,14 @@ class CalendarStore:
     for ws in self._web_sockets:
       if ws.closed:
         continue
-      ws.send(self.all_json())
+      try:
+        ws.send(self.all_json())
+      # HACK: multi-level hack. Should use proper error class (import :() and message comparison should use constants
+      except Exception as e:
+        if str(e) == "Socket is dead":
+          self.remove_ws(ws)
+        else:
+          raise e
 
   def remove_ws(self, ws):
     self._web_sockets.remove(ws)

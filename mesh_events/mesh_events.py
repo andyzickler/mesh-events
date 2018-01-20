@@ -40,9 +40,16 @@ def calendars_json():
 def calendars_socket(ws):
   calendar_store.add_ws(ws)
   while not ws.closed:
-    message = ws.receive()
-    ws.send(calendar_store.all_json())
-  calendar_store.remove_ws(ws)
+    try:
+      message = ws.receive()
+      ws.send(calendar_store.all_json())
+      calendar_store.remove_ws(ws)
+    # HACK: multi-level hack. Should use proper error class (import :() and message comparison should use constants
+    except Exception as e:
+      if str(e) == "Socket is dead":
+        calendar_store.remove_ws(ws)
+      else:
+        raise e
 
 
 @app.route('/generate-calendar')
