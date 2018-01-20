@@ -1,4 +1,4 @@
-from . import Calendar
+from .calendar import MeshCalendar
 
 _store = {}
 
@@ -9,5 +9,5 @@ def all():
   _store.values()
 
 def load_seed_data():
-  add(Calendar("James' Work Calendar"))
-  add(Calendar("Neighborhood Events"))
+  add(MeshCalendar("James' Work Calendar"))
+  add(MeshCalendar("Neighborhood Events"))

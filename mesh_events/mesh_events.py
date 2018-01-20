@@ -2,9 +2,7 @@ from datetime import datetime
 
 from flask import Flask, abort, flash, redirect, render_template, request, url_for
 
-import sys
-sys.path.insert(0, './lib')
-import calendar_store as CalendarStore
+import lib.calendar_store as CalendarStore
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
