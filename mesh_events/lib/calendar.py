@@ -1,12 +1,13 @@
 import json
 
-class MeshCalendar():
 
+class MeshCalendar():
   def __init__(self, name):
     self.name = name
 
   def id(self):
     return self.name
+
 
 class MeshCalendarEncoder(json.JSONEncoder):
   def default(self, o):

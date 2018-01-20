@@ -21,6 +21,9 @@ class CalendarStore:
     self._store[calendar.id()] = calendar
     self._change_number += 1
 
+  def remove(self, calendar_id):
+    del self._store[calendar_id]
+
   def all(self):
     return list(self._store.values())
 

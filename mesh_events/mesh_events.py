@@ -23,16 +23,18 @@ calendar_store.load_seed_data()
 if os.environ.get("WERKZEUG_RUN_MAIN") != "true":
   advertiser = MDNSAdvertiser()
   advertiser.setup()
-  browser = MDNSBrowser()
+  browser = MDNSBrowser(calendar_store)
 
 
 @app.route('/')
 def index():
   return render_template('index.html', calendars=calendar_store.all(), calendars_json=calendar_store.all_json())
 
+
 @app.route('/calendars.json')
 def calendars_json():
   return calendar_store.all_json()
+
 
 @sockets.route('/calendars.socket')
 def calendars_socket(ws):
@@ -52,10 +54,10 @@ def calendars_socket(ws):
     # message = ws.receive()
     # ws.send(message)
 
+
 @app.route('/generate-calendar')
 def generate_calendar():
   return calendar_store.generate_calendar()
-
 
 
 @atexit.register
