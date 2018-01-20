@@ -1,8 +1,21 @@
-<strong>Calendars:</strong>
-<br/>
+<head>
+</head>
 
-{% for calendar in calendars %}
-  <div>
-    {{ calendar.name }}
-  </div>
-{% endfor %}
+<body>
+
+  <strong>Calendars:</strong>
+  <br/>
+
+  {% for calendar in calendars %}
+    <div>
+      {{ calendar.name }}
+    </div>
+  {% endfor %}
+
+
+  <div id="reactEntry"></div>
+
+  <!-- Attach React components -->
+  <script type="text/javascript" src="{{ url_for('static', filename='bundle.js') }}"></script>
+
+</body>

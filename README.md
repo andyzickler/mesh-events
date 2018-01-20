@@ -1,3 +1,10 @@
+# Installation
+```
+pip install -r requirements.txt
+cd mesh_events
+npm install -g webpack@1.12; npm install
+```
+
 # Components
 calendar server
 - python
