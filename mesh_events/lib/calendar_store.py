@@ -20,20 +20,23 @@ class CalendarStore:
 
   def add(self, calendar):
     self._store[calendar.id()] = calendar
+    self.broadcast_changes()
+
+  def add_ws(self, ws):
+    self._web_sockets.append(ws)
+
+  def broadcast_changes(self):
     for ws in self._web_sockets:
       if ws.closed:
         continue
       ws.send(self.all_json())
-
-
-  def add_ws(self, ws):
-    self._web_sockets.append(ws)
 
   def remove_ws(self, ws):
     self._web_sockets.remove(ws)
 
   def remove(self, calendar_id):
     del self._store[calendar_id]
+    self.broadcast_changes()
 
   def all(self):
     return list(self._store.values())
