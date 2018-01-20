@@ -21,11 +21,16 @@ if __name__ == '__main__':
 
     service_name = u"{}._ics._tcp.local.".format(socket.gethostname().split('.local')[0])
     host_name = u"{}.".format(socket.gethostname())
+    host_ip = socket.gethostbyname(socket.gethostname())
+    try:
+        host_ip_pton = socket.inet_pton(socket.AF_INET, host_ip)
+    except socket.error:
+        host_ip_pton = socket.inet_pton(socket.AF_INET6, host_ip)
 
     info = ServiceInfo("_ics._tcp.local.",
                        service_name,
-                       socket.inet_aton("127.0.0.1"), PORTNUMBER, 0, 0,
-                       desc)
+                       host_ip_pton, PORTNUMBER, 0, 0,
+                       desc, host_name)
 
     zeroconf = Zeroconf()
     print("Registration of a service, press Ctrl-C to exit...")
