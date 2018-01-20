@@ -1,10 +1,12 @@
 import atexit
+import os
 from datetime import datetime
 
 from flask import Flask, abort, jsonify, flash, redirect, render_template, request, url_for
 from flask_sockets import Sockets
 
 from lib.advertiser import MDNSAdvertiser
+from lib.browser import MDNSBrowser
 from lib.calendar_store import CalendarStore
 
 import time
@@ -17,7 +19,12 @@ app.config['DEBUG'] = True
 calendar_store = CalendarStore()
 
 calendar_store.load_seed_data()
-advertiser = MDNSAdvertiser()
+# This is a hack, we're at a hackathon
+if os.environ.get("WERKZEUG_RUN_MAIN") != "true":
+  advertiser = MDNSAdvertiser()
+  advertiser.setup()
+  browser = MDNSBrowser()
+
 
 @app.route('/')
 def index():
@@ -57,7 +64,6 @@ def stop_advertiser():
 
 
 if __name__ == '__main__':
-  advertiser.setup()
   # app.run()
   from gevent import pywsgi
   from geventwebsocket.handler import WebSocketHandler
