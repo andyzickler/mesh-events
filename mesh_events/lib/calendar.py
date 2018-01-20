@@ -4,5 +4,5 @@ class MeshCalendar:
     self.name = name
     print("in the constructor")
 
-  def testid(self):
+  def id(self):
     return self.name

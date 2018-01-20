@@ -3,10 +3,10 @@ from .calendar import MeshCalendar
 _store = {}
 
 def add(calendar):
-  _store[calendar.testid()] = calendar
+  _store[calendar.id()] = calendar
 
 def all():
-  _store.values()
+  return _store.values()
 
 def load_seed_data():
   add(MeshCalendar("James' Work Calendar"))
