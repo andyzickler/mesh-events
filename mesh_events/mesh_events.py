@@ -38,27 +38,17 @@ def calendars_json():
 
 @sockets.route('/calendars.socket')
 def calendars_socket(ws):
-  change_number = -1
+  calendar_store.add_ws(ws)
   while not ws.closed:
-    # current_change_number = calendar_store.change_number()
-    # if change_number < current_change_number:
-    #   ws.send(calendar_store.all_json())
-    #   change_number = current_change_number
-    # time.sleep(5)
-
-    current_change_number = calendar_store.change_number()
-    if change_number < current_change_number:
-      ws.send(calendar_store.all_json())
-      change_number = current_change_number
-
-    # message = ws.receive()
-    # ws.send(message)
+    message = ws.receive()
+    ws.send(calendar_store.all_json())
+  calendar_store.remove_ws(ws)
 
 
 @app.route('/generate-calendar')
 def generate_calendar():
-  return calendar_store.generate_calendar()
-
+  calendar_store.generate_calendar()
+  return calendar_store.all_json()
 
 @atexit.register
 def stop_advertiser():

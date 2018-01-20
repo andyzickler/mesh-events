@@ -102,4 +102,4 @@ ENV/
 
 
 # React stuff
-mesh_events/static/bundle.js
+# mesh_events/static/bundle.js

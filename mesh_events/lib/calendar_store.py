@@ -14,12 +14,23 @@ class CalendarStore:
                  'Elizabeth', 'Dylan', 'Sarah', 'Nathan', 'Eliana', 'Nicholas', 'Mackenzie', 'Julian', 'Peyton', 'Eli',
                  'Maria', 'Levi', 'Grace', 'Isaiah', 'Adeline', 'Landon', 'Elena', 'David', 'Anna', 'Christian',
                  'Victoria', 'Andrew', 'Camilla', 'Brayden', 'Lillian', 'John', 'Natalie', 'Lincoln']
+  FIRST_NAMES = ['Sophia', 'Jackson', 'Emma', 'Aiden', 'Olivia', 'Lucas', 'Ava', 'Liam', 'Mia', 'Noah', 'Isabella', 'Ethan', 'Riley', 'Mason', 'Aria', 'Caden', 'Zoe', 'Oliver', 'Charlotte', 'Elijah', 'Lily', 'Grayson', 'Layla', 'Jacob', 'Amelia', 'Michael', 'Emily', 'Benjamin', 'Madelyn', 'Carter', 'Aubrey', 'James', 'Adalyn', 'Jayden', 'Madison', 'Logan', 'Chloe', 'Alexander', 'Harper', 'Caleb', 'Abigail', 'Ryan', 'Aaliyah', 'Luke', 'Avery', 'Daniel', 'Evelyn', 'Jack', 'Kaylee', 'William', 'Ella', 'Owen', 'Ellie', 'Gabriel', 'Scarlett', 'Matthew', 'Arianna', 'Connor', 'Hailey', 'Jayce', 'Nora', 'Isaac', 'Addison', 'Sebastian', 'Brooklyn', 'Henry', 'Hannah', 'Muhammad', 'Mila', 'Cameron', 'Leah', 'Wyatt', 'Elizabeth', 'Dylan', 'Sarah', 'Nathan', 'Eliana', 'Nicholas', 'Mackenzie', 'Julian', 'Peyton', 'Eli', 'Maria', 'Levi', 'Grace', 'Isaiah', 'Adeline', 'Landon', 'Elena', 'David', 'Anna', 'Christian', 'Victoria', 'Andrew', 'Camilla', 'Brayden', 'Lillian', 'John', 'Natalie', 'Lincoln']
+  _web_sockets = []
   _store = {}
-  _change_number = 0
 
   def add(self, calendar):
     self._store[calendar.id()] = calendar
-    self._change_number += 1
+    for ws in self._web_sockets:
+      if ws.closed:
+        continue
+      ws.send(self.all_json())
+
+
+  def add_ws(self, ws):
+    self._web_sockets.append(ws)
+
+  def remove_ws(self, ws):
+    self._web_sockets.remove(ws)
 
   def remove(self, calendar_id):
     del self._store[calendar_id]
@@ -29,9 +40,6 @@ class CalendarStore:
 
   def all_json(self):
     return json.dumps(self.all(), cls=MeshCalendarEncoder)
-
-  def change_number(self):
-    return self._change_number
 
   def generate_calendar(self):
     first_name = self.FIRST_NAMES[round(random() * len(self.FIRST_NAMES))]

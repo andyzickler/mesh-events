@@ -12,11 +12,42 @@ import {
 
 export default class CalendarList extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      calendars: props.calendars,
+    };
+  }
+
+  componentDidMount() {
+    console.log("mounting");
+    let socket = new WebSocket("ws://" + location.host + "/calendars.socket");
+
+    socket.onopen = function(){
+      console.log("Socket has been opened!");
+    }
+
+    let { setState } = this;
+    let that = this;
+    socket.onmessage = function(message){
+      let { data } = message
+      let calendars = JSON.parse(data);
+      that.updateCalendars(calendars)
+    }
+  };
+
+  updateCalendars(calendars) {
+    this.setState({
+      calendars: calendars,
+    });
+  }
+
   renderRows() {
-    return this.props.calendars.map((calendar, index) => {
+    let { calendars } = this.state;
+    return calendars.map((calendar, index) => {
       return (
-        <TableRow id="{index}">
-          <TableRowColumn>
+        <TableRow key={index}>
+          <TableRowColumn key="id">
             {calendar.id}
           </TableRowColumn>
           <TableRowColumn>
