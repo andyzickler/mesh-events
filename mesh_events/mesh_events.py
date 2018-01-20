@@ -18,7 +18,7 @@ app.config['DEBUG'] = True
 
 calendar_store = CalendarStore()
 
-calendar_store.load_seed_data()
+# calendar_store.load_seed_data()
 # This is a hack, we're at a hackathon
 if os.environ.get("WERKZEUG_RUN_MAIN") != "true":
   advertiser = MDNSAdvertiser()
