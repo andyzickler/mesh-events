@@ -28,7 +28,7 @@ class MDNSBrowser(object):
 
   def _add_calendar(self, name, address):
     self.calendar_servers[name] = address
-    calendar = MeshCalendar(name)
+    calendar = MeshCalendar(name, address)
     self.calendar_store.add(calendar)
 
   def _remove_from_store(self, name):
