@@ -53,10 +53,10 @@ def generate_calendar():
 
 @app.route('/aggregate.ics')
 def serve_aggregate():
-  print('get that data?')
-  data = '\n'.join([calendar.get_content() for calendar in calendar_store.all()])
-  print('here comes the data?')
-  print(data)
+  data = ''
+  for calendar in calendar_store.all():
+    content = calendar.get_content()
+    data += content + '\n'
   return data
 
 

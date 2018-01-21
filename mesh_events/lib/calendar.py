@@ -6,7 +6,7 @@ class MeshCalendar():
   def __init__(self, name, address):
     self.name = name
     self.address = address
-    self.content = ''
+    self.content = 'Empty'
     self.subscribed = True
     self.mine = False
 
@@ -15,14 +15,13 @@ class MeshCalendar():
 
   def get_content(self):
     if self.mine:
-      print('skipping me!')
-      return ''
+      with open('static/calendar.ics') as c:
+        return c.read()
     print(u"http://{}:5000/static/calendar.ics".format(self.address))
     r = requests.get(u"http://{}:5000/static/calendar.ics".format(self.address))
     print(r.status_code)
     if r.status_code == 200:
       self.content = r.text
-      print(self.content)
 
     return self.content
 
