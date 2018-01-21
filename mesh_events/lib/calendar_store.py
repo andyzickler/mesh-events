@@ -25,7 +25,7 @@ class CalendarStore:
     self._web_sockets.append(ws)
 
   def get(self, id):
-    return _store[id]
+    return self._store[id]
 
   def broadcast_changes(self):
     for ws in self._web_sockets:
