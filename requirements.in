@@ -1,3 +1,4 @@
 flask
 zeroconf
 Flask-Sockets
+requests

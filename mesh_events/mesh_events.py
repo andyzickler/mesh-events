@@ -50,6 +50,16 @@ def generate_calendar():
   calendar_store.generate_calendar()
   return calendar_store.all_json()
 
+
+@app.route('/aggregate.ics')
+def serve_aggregate():
+  print('get that data?')
+  data = '\n'.join([calendar.get_content() for calendar in calendar_store.all()])
+  print('here comes the data?')
+  print(data)
+  return data
+
+
 @atexit.register
 def stop_advertiser():
   advertiser.teardown()

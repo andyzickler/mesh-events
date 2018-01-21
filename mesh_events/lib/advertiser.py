@@ -2,7 +2,7 @@ import socket
 
 from zeroconf import ServiceInfo, Zeroconf
 
-PORTNUMBER = 80
+PORTNUMBER = 5000
 
 
 class MDNSAdvertiser(object):
