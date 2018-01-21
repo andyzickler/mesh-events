@@ -107,7 +107,6 @@ export default class CalendarList extends Component {
   render() {
     return (
       <div>
-        <h1>Calendars</h1>
         {this.renderTable()}
       </div>
     );

@@ -1,4 +1,5 @@
 import CalendarList from './CalendarList';
+import {Card, CardTitle, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -7,7 +8,22 @@ const container = document.getElementById('reactAppContainer');
 
 const App = () => (
   <MuiThemeProvider>
-    <CalendarList calendars={JSON.parse(container.getAttribute('calendars'))} />
+    <div>
+      <Card>
+        <CardTitle title="Calendars" subtitle="Share and aggregate calendars" />
+        <CardText>
+          <CalendarList calendars={JSON.parse(container.getAttribute('calendars'))} />
+        </CardText>
+      </Card>
+      <br />
+      <br />
+      <Card>
+        <CardTitle title="Other Mesh Services" subtitle="Services disocvered using Unglitch Mesh Discovery Protocol" />
+        <CardText>
+          <em>No other services found</em>
+        </CardText>
+      </Card>
+    </div>
   </MuiThemeProvider>
 );
 
