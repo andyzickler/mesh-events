@@ -1,35 +1,34 @@
+# Overview
+This is a super simple proof of concept decentralized calendar sharing + aggregation service for mesh networks. It also includes a simple service discovery protocol for mesh network services using multicast DNS (udp, bonjour) that could be used to allow users and other services to discover services available on mesh network.
+
+Built as part of [{UNGLITCH} Net Neutrality Hackathon + Creative Showcase](https://www.eventbrite.com/e/unglitch-net-neutrality-hackathon-creative-showcase-registration-41476382978#).
+
+Technology used:
+- Python, Flask, Websockets
+- React, React Material-UI Components
+
 # Installation
 ```
+# setup a virtual env
+source venv/bin/activate
 pip install -r requirements.txt
 cd mesh_events
-npm install -g webpack@1.12; npm install
+npm install
 ```
 
-# Components
-calendar server
-- python
-- serves iCalendar file
-  - later, serves it from a live source
+# Usage
+```
+./start
+```
 
-aggregator (server)
-- uses mdns to discover calendars being offered
-- concatenates them
-- makes concatenated file available (also via mdns?)
-- combine with the calendar server
+Place example calendar files to share in mesh_events/static/
 
-aggregate client
-- discover aggregator server
-- pulls aggregated calendar file
-- react frontend served from local aggregator server
+Run on other computers on the same subnet to see the decentralized / discovery functionality.
 
-user experience
-- user installs the server (git clone + python)
-  - package into a binary / one click install script?
-- user visits localhost:OURPORT
-- subscribes to calendars by generating URLs
-
+Visit [http://localhost:5000](http://localhost:5000), select the calendar(s) you would like to subscribe to, add the aggregate URL to your favorite calendar program. It will dynamically update as shared calendars change and other nodes become available.
 
 # TODO
+- UI to add your calendar(s) arbitrarily
+- Pull locally available calendars automatically?
 - Expand to generalized discovery service with specific calendar section
   - Add a TXT key to the DNS responses that designate they are discoverable by our service
-
