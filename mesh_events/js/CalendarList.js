@@ -9,6 +9,10 @@ import {
   TableRowColumn,
 } from 'material-ui/Table';
 
+import Avatar from 'material-ui/Avatar';
+import Chip from 'material-ui/Chip';
+import FontIcon from 'material-ui/FontIcon';
+import {blue300, indigo900} from 'material-ui/styles/colors';
 
 export default class CalendarList extends Component {
 
@@ -29,6 +33,10 @@ export default class CalendarList extends Component {
       calendars: props.calendars,
       socket: socket,
     };
+  }
+
+  handleCopyButtonClick() {
+    console.log("copy");
   }
 
   handleRowSelection(rows) {
@@ -105,9 +113,20 @@ export default class CalendarList extends Component {
   };
 
   render() {
+    let copyUrl = "http://" + location.host + "aggregate.ics";
     return (
       <div>
         {this.renderTable()}
+        <br/> <br/>
+        <div>
+          <Chip
+            onClick={this.handleCopyButtonClick.bind(this)}
+          >
+            <Avatar icon={<FontIcon className="material-icons">content_copy</FontIcon>} />
+            {copyUrl}
+          </Chip>
+        </div>
+
       </div>
     );
   }

@@ -10,6 +10,10 @@ const App = () => (
   <MuiThemeProvider>
     <div>
       <Card>
+        <img src="/static/cal_logo.svg" height="80px" style={{
+          float: 'right',
+          margin: '7px',
+        }}/>
         <CardTitle title="Calendars" subtitle="Share and aggregate calendars" />
         <CardText>
           <CalendarList calendars={JSON.parse(container.getAttribute('calendars'))} />
