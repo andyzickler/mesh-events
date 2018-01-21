@@ -7,7 +7,7 @@ class MeshCalendar():
     self.name = name
     self.address = address
     self.content = 'Empty'
-    self.subscribed = True
+    self.selected = True
     self.mine = False
 
   def id(self):

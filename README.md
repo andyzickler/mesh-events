@@ -28,3 +28,8 @@ user experience
 - user visits localhost:OURPORT
 - subscribes to calendars by generating URLs
 
+
+# TODO
+- Expand to generalized discovery service with specific calendar section
+  - Add a TXT key to the DNS responses that designate they are discoverable by our service
+

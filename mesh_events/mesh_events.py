@@ -9,6 +9,7 @@ from lib.advertiser import MDNSAdvertiser
 from lib.browser import MDNSBrowser
 from lib.calendar_store import CalendarStore
 
+import json
 import time
 
 app = Flask(__name__)
@@ -42,15 +43,20 @@ def calendars_socket(ws):
   while not ws.closed:
     try:
       message = ws.receive()
+      if message is not None and message != "":
+        data = json.loads(message)
+        action = data['action']
+        if action == "set_selected":
+          calendar_store.set_selected(data['ids'])
+
       ws.send(calendar_store.all_json())
-      calendar_store.remove_ws(ws)
     # HACK: multi-level hack. Should use proper error class (import :() and message comparison should use constants
     except Exception as e:
       if str(e) == "Socket is dead":
         calendar_store.remove_ws(ws)
       else:
         raise e
-
+  calendar_store.remove_ws(ws)
 
 @app.route('/generate-calendar')
 def generate_calendar():

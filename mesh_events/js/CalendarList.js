@@ -14,27 +14,43 @@ export default class CalendarList extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      calendars: props.calendars,
-    };
-  }
 
-  componentDidMount() {
-    console.log("mounting");
+    // Connect web socket
     let socket = new WebSocket("ws://" + location.host + "/calendars.socket");
 
-    socket.onopen = function(){
-      console.log("Socket has been opened!");
-    }
-
-    let { setState } = this;
     let that = this;
     socket.onmessage = function(message){
       let { data } = message
       let calendars = JSON.parse(data);
-      that.updateCalendars(calendars)
+      that.updateCalendars(calendars);
     }
-  };
+
+    this.state = {
+      calendars: props.calendars,
+      socket: socket,
+    };
+  }
+
+  handleRowSelection(rows) {
+    let { socket } = this.state;
+
+    var selectedCalendars;
+    if (rows == "all") {
+      selectedCalendars = this.state.calendars;
+    } else {
+      selectedCalendars = rows.map((rowIndex) => {
+        return this.state.calendars[rowIndex];
+      });
+    }
+
+    let socketCommand = JSON.stringify({
+      action: 'set_selected',
+      ids: selectedCalendars.map((calendar) => {
+        return calendar.id
+      })
+    });
+    socket.send(socketCommand);
+  }
 
   updateCalendars(calendars) {
     this.setState({
@@ -44,9 +60,12 @@ export default class CalendarList extends Component {
 
   renderRows() {
     let { calendars } = this.state;
+
     return calendars.map((calendar, index) => {
       return (
-        <TableRow key={index}>
+        <TableRow
+          key={index}
+        >
           <TableRowColumn key="id">
             {calendar.id}
           </TableRowColumn>
@@ -62,8 +81,14 @@ export default class CalendarList extends Component {
   };
 
   renderTable() {
+    let { handleRowSelection } = this;
+
     return (
-      <Table>
+      <Table
+        selectable={true}
+        multiSelectable={true}
+        onRowSelection={handleRowSelection.bind(this)}
+      >
         <TableHeader>
           <TableRow>
             <TableHeaderColumn>ID</TableHeaderColumn>

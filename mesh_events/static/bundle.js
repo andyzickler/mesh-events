@@ -119,33 +119,50 @@
 	  function CalendarList(props) {
 	    _classCallCheck(this, CalendarList);
 
+	    // Connect web socket
 	    var _this = _possibleConstructorReturn(this, (CalendarList.__proto__ || Object.getPrototypeOf(CalendarList)).call(this, props));
 
+	    var socket = new WebSocket("ws://" + location.host + "/calendars.socket");
+
+	    var that = _this;
+	    socket.onmessage = function (message) {
+	      var data = message.data;
+
+	      var calendars = JSON.parse(data);
+	      that.updateCalendars(calendars);
+	    };
+
 	    _this.state = {
-	      calendars: props.calendars
+	      calendars: props.calendars,
+	      socket: socket
 	    };
 	    return _this;
 	  }
 
 	  _createClass(CalendarList, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      console.log("mounting");
-	      var socket = new WebSocket("ws://" + location.host + "/calendars.socket");
+	    key: 'handleRowSelection',
+	    value: function handleRowSelection(rows) {
+	      var _this2 = this;
 
-	      socket.onopen = function () {
-	        console.log("Socket has been opened!");
-	      };
+	      var socket = this.state.socket;
 
-	      var setState = this.setState;
 
-	      var that = this;
-	      socket.onmessage = function (message) {
-	        var data = message.data;
+	      var selectedCalendars;
+	      if (rows == "all") {
+	        selectedCalendars = this.state.calendars;
+	      } else {
+	        selectedCalendars = rows.map(function (rowIndex) {
+	          return _this2.state.calendars[rowIndex];
+	        });
+	      }
 
-	        var calendars = JSON.parse(data);
-	        that.updateCalendars(calendars);
-	      };
+	      var socketCommand = JSON.stringify({
+	        action: 'set_selected',
+	        ids: selectedCalendars.map(function (calendar) {
+	          return calendar.id;
+	        })
+	      });
+	      socket.send(socketCommand);
 	    }
 	  }, {
 	    key: 'updateCalendars',
@@ -159,10 +176,13 @@
 	    value: function renderRows() {
 	      var calendars = this.state.calendars;
 
+
 	      return calendars.map(function (calendar, index) {
 	        return _react2.default.createElement(
 	          _Table.TableRow,
-	          { key: index },
+	          {
+	            key: index
+	          },
 	          _react2.default.createElement(
 	            _Table.TableRowColumn,
 	            { key: 'id' },
@@ -184,9 +204,16 @@
 	  }, {
 	    key: 'renderTable',
 	    value: function renderTable() {
+	      var handleRowSelection = this.handleRowSelection;
+
+
 	      return _react2.default.createElement(
 	        _Table.Table,
-	        null,
+	        {
+	          selectable: true,
+	          multiSelectable: true,
+	          onRowSelection: handleRowSelection.bind(this)
+	        },
 	        _react2.default.createElement(
 	          _Table.TableHeader,
 	          null,
