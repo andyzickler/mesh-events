@@ -17,9 +17,7 @@ class MeshCalendar():
     if self.mine:
       with open('static/calendar.ics') as c:
         return c.read()
-    print(u"http://{}:5000/static/calendar.ics".format(self.address))
     r = requests.get(u"http://{}:5000/static/calendar.ics".format(self.address))
-    print(r.status_code)
     if r.status_code == 200:
       self.content = r.text
 
