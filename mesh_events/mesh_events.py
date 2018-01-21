@@ -68,8 +68,9 @@ def generate_calendar():
 def serve_aggregate():
   data = ''
   for calendar in calendar_store.all():
-    content = calendar.get_content()
-    data += content + '\n'
+    if calendar.selected:
+      content = calendar.get_content()
+      data += content + '\n'
   return data
 
 
