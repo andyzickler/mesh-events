@@ -181,7 +181,8 @@
 	        return _react2.default.createElement(
 	          _Table.TableRow,
 	          {
-	            key: index
+	            key: index,
+	            selected: calendar.selected
 	          },
 	          _react2.default.createElement(
 	            _Table.TableRowColumn,
@@ -196,7 +197,7 @@
 	          _react2.default.createElement(
 	            _Table.TableRowColumn,
 	            null,
-	            'fake'
+	            calendar.address
 	          )
 	        );
 	      });
@@ -233,7 +234,7 @@
 	            _react2.default.createElement(
 	              _Table.TableHeaderColumn,
 	              null,
-	              'Status'
+	              'Address'
 	            )
 	          )
 	        ),

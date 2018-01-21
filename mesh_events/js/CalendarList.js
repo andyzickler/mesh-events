@@ -65,6 +65,7 @@ export default class CalendarList extends Component {
       return (
         <TableRow
           key={index}
+          selected={calendar.selected}
         >
           <TableRowColumn key="id">
             {calendar.id}
@@ -73,7 +74,7 @@ export default class CalendarList extends Component {
             {calendar.name}
           </TableRowColumn>
           <TableRowColumn>
-            fake
+            {calendar.address}
           </TableRowColumn>
         </TableRow>
       );
@@ -93,7 +94,7 @@ export default class CalendarList extends Component {
           <TableRow>
             <TableHeaderColumn>ID</TableHeaderColumn>
             <TableHeaderColumn>Name</TableHeaderColumn>
-            <TableHeaderColumn>Status</TableHeaderColumn>
+            <TableHeaderColumn>Address</TableHeaderColumn>
           </TableRow>
         </TableHeader>
         <TableBody>

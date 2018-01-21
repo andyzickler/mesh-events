@@ -33,6 +33,6 @@ class MeshCalendarEncoder(json.JSONEncoder):
         'id': o.id(),
         'name': o.name,
         'address': o.address,
-        'subscribed': o.subscribed
+        'selected': o.selected
       }
     return MeshCalendarEncoder(self, o)
